@@ -109,7 +109,7 @@ def get_and_print_summary(st, input_data):
 def main():
     
     st.title("Automated Text Summarization")
-    st.image(r"C:\Users\saurabhsingh\Downloads\1cover1.jpg", width=1000)
+    st.image("dialoguelogo.jpg", width=1000)
 
     st.sidebar.header("Menu")
     nav = st.sidebar.radio("Navigation",["HOME","SUMMARIZATION"])
