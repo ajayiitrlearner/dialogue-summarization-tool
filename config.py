@@ -4,31 +4,10 @@ huggingface_dataset_name = "knkarthick/dialogsum"
 output_dir = './peft-dialogue-summary-training'
 peft_model_path="./peft-model-final"
 
-loaded_model = 'nirupama1899/dialog-summarization'
+loaded_model = 'ajaymacharla/dialogsum'
 
 
-members = {
-    "Saurabh Singh": {
-        "role": "ML Engineer/UI Developer",
-        "image_path": r"C:\Users\saurabhsingh\Downloads\Saurabh singh t.png",
-        "description": "Saurabh is responsible for developing and optimizing machine learning models for text summarization. He also designs and implements the user interface of the application."
-    },
-    "Nirupama Bodapati": {
-        "role": "ML Engineer",
-        "image_path": r"C:\Users\saurabhsingh\Downloads\nirupama_bodappati.png",
-        "description": "Nirumpama focuses on the machine learning aspects of the application, working on data preprocessing, model training, and evaluation."
-    },
-    "Sanath Thumu": {
-        "role": "Business Analyst",
-        "image_path": r"C:\Users\saurabhsingh\Downloads\sanath thumu.png",
-        "description": "Sanath analyzes business requirements and ensures that the application aligns with stakeholders' needs and business goals."
-    },
-    "Prashanth Kumar Gunda": {
-        "role": "Data Scientist",
-        "image_path": r"C:\Users\saurabhsingh\Downloads\prashant kumar.png",
-        "description": "Prashanth handles data processing for the application, gathering and preprocessing datasets used to train machine learning models."
-    }
-}
+
 
 
 
