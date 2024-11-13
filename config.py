@@ -4,11 +4,7 @@ huggingface_dataset_name = "knkarthick/dialogsum"
 output_dir = './peft-dialogue-summary-training'
 peft_model_path="./peft-model-final"
 
-loaded_model = 'ajaymacharla/dialogsum'
-
-
-
-
+loaded_model = 'ajaymacharla/dialogsummary'
 
 
 markdown_text = """

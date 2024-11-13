@@ -86,7 +86,7 @@ def merge_model_and_push_to_huggingface():
     merged_model.save_pretrained("merged_base_peft_model")
     token = 'Enter Token'
     login(token)
-    merged_model.push_to_hub('ajaymacharla/dialogsum')
+    merged_model.push_to_hub('ajaymacharla/dialogsummary')
 
 
 def evaluate_model(peft_model, sample_tokenized_dataset, tokenizer):

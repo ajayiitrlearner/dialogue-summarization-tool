@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, T5ForConditionalGeneration
 from transformers import pipeline
 import torch
 import base64
-from config import model_name, loaded_model, members, markdown_text
+from config import model_name, loaded_model, markdown_text
 
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -24,7 +24,14 @@ def file_preprocessing(file):
 
 
 #LLM pipeline
-def llm_pipeline(input_data, max_length = 500, min_length = 50):
+def llm_pipeline(input_data, max_length = 370, min_length = 0):
+
+    if len(input_data.split()) < max_length:
+        max_length = len(input_data.split()) + 10 
+
+    if min_length > max_length:
+        min_length = max_length // 2
+
     pipe_sum = pipeline(
         'summarization',
         model = base_model,
@@ -66,32 +73,34 @@ def toggle_button(button_id, new_label):
     """
 
 
-def display_team_members_info(st):
+# def display_team_members_info(st):
 
-    col1, col2 = st.columns(2)
-    for i, (name, info) in enumerate(members.items(), start=1):
-        if i % 2 != 0:
-            with col1:
-                st.write("")
-                st.markdown(f"## {name}")  # Make the name bigger
-                st.write("Role:", info["role"])
-                st.write(info["description"])
-                st.image(info["image_path"], width=250)
-                st.write("")
-        else:
-            with col2:
-                st.write("")
-                st.markdown(f"## {name}")  # Make the name bigger
-                st.write("Role:", info["role"])
-                st.write(info["description"])
-                st.image(info["image_path"], width=250)
-                st.write("")
+#     col1, col2 = st.columns(2)
+#     for i, (name, info) in enumerate(members.items(), start=1):
+#         if i % 2 != 0:
+#             with col1:
+#                 st.write("")
+#                 st.markdown(f"## {name}")  # Make the name bigger
+#                 st.write("Role:", info["role"])
+#                 st.write(info["description"])
+#                 st.image(info["image_path"], width=250)
+#                 st.write("")
+#         else:
+#             with col2:
+#                 st.write("")
+#                 st.markdown(f"## {name}")  # Make the name bigger
+#                 st.write("Role:", info["role"])
+#                 st.write(info["description"])
+#                 st.image(info["image_path"], width=250)
+#                 st.write("")
 
 
 
 def get_and_print_summary(st, input_data):
     
+    print("Entered Summary func")
     summary = llm_pipeline(input_data)
+    print(summary)
     st.info("Summarization Complete")
     st.success(summary)
     
@@ -118,11 +127,11 @@ def main():
         st.subheader("About:")
         st.markdown(markdown_text)
         st.subheader("Team Members:")
-        display_team_members_info(st)
+        # display_team_members_info(st)
 
                 
     elif nav == "SUMMARIZATION":
-        choice = st.sidebar.selectbox("Choose data", ["Upload", "Enter Text"])
+        choice = st.sidebar.selectbox("Choose data", ["Enter Text"])
         
         if choice == "Upload":     
             uploaded_file = st.file_uploader("Upload your PDF file", type=['pdf'])
@@ -132,13 +141,20 @@ def main():
                 if st.button("Summarize"):
                     col1, col2 = st.columns(2)
                     filepath = "data/"+uploaded_file.name
+
+                    loader = PyPDFLoader(filepath)
+                    pages = loader.load()
+                    content = " ".join([page.page_content for page in pages])
+
+                    print(content)
+
                     with open(filepath, "wb") as temp_file:
                         temp_file.write(uploaded_file.read())
                     with col1:
                         st.info("Uploaded File")
                         pdf_view = displayPDF(filepath)   
                     with col2:
-                        get_and_print_summary(st, filepath)
+                        get_and_print_summary(st, content)
  
         else:
             prompt = st.text_area("Enter your text here", height=200)
@@ -150,6 +166,7 @@ def main():
                     with col1:
                         st.write(prompt)
                     with col2:
+                        print("Calling Summary func")
                         get_and_print_summary(st, prompt)
 
 if __name__ == "__main__":
